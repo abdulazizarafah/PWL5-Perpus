@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use App\Models\Bookshelf;
 use App\Models\Book;
@@ -104,5 +105,11 @@ class BookController extends Controller
             'alert-type' => 'success'
         );
         return redirect()->route('book')->with($notification);
+    }
+      public function print()
+    {
+        $books = Book::all();
+        $pdf = Pdf::loadview('books.print', ['books' => $books]);
+        return $pdf->download('data_buku.pdf');
     }
 }
